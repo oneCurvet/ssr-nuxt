@@ -8,7 +8,7 @@
         :key="index"
         :class="{active: index === currentNum}"
       >
-        <div  @click="handleChangeActive(item,index)">
+        <div @click="handleChangeActive(item,index)">
           <i :class="item.icon"></i>
           <span>{{item.content}}</span>
         </div>
@@ -72,13 +72,13 @@ export default {
     };
   },
   methods: {
-    handleChangeActive(item,index) {
-      if(index === 1){
-        this.$confirm("目前暂不支持往返，请使用单程选票！", '提示', {
-            confirmButtonText: '确定',
-            showCancelButton: false,
-            type: 'warning'
-        })
+    handleChangeActive(item, index) {
+      if (index === 1) {
+        this.$confirm("目前暂不支持往返，请使用单程选票！", "提示", {
+          confirmButtonText: "确定",
+          showCancelButton: false,
+          type: "warning"
+        });
         return;
       }
       this.currentNum = index;
@@ -86,6 +86,7 @@ export default {
     queryDepartAsync(queryString, cb) {
       //   console.log(queryString);
       //   console.log(cb);
+      if (!queryString) return;
       this.$axios({
         url: `/airs/city?name=${queryString}`,
         method: "GET"
@@ -100,10 +101,12 @@ export default {
           };
         });
         cb(newDate);
+        this.form.departCity = newDate[0].value;
+        // console.log(newDate)
       });
     },
     handleSelectDepart(item) {
-      console.log(item);
+      // console.log(item);
       this.form.departCode = item.sort;
       this.form.departCity = item.value;
     },
@@ -112,11 +115,13 @@ export default {
     queryDestAsync(queryString, cb) {
       //   console.log(queryString);
       //   console.log(cb);
+      if (!queryString) return;
       this.$axios({
         url: `/airs/city?name=${queryString}`,
         method: "GET"
       }).then(res => {
         // console.log(res);
+        if (!this.form.destCity) return;
         const { data } = res.data;
         // console.log(data);
         const newDate = data.map(v => {
@@ -126,6 +131,7 @@ export default {
           };
         });
         cb(newDate);
+        this.form.destCity = newDate[0].value;
       });
     },
     handleSelectDest(item) {
@@ -138,6 +144,13 @@ export default {
     },
     handleSearch() {
       // console.log(this.form.departDate)
+
+      const historyItem = JSON.parse(localStorage.getItem("historyItem")) || [];
+
+      historyItem.push(this.form);
+
+      localStorage.setItem("historyItem", JSON.stringify(historyItem));
+
       const rules = {
         departCity: {
           value: this.form.departCity,
@@ -164,7 +177,7 @@ export default {
 
       if (!flag) return;
       this.$router.push({
-        path: "",
+        path: "/air/flights",
         query: this.form
       });
     }
@@ -197,7 +210,7 @@ export default {
       align-items: center;
       justify-content: center;
       background: #eee;
-      > div{
+      > div {
         width: 100%;
         height: 100%;
         cursor: pointer;
