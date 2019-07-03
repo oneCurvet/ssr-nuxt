@@ -46,7 +46,7 @@
             </el-col>
             <el-col :span="5" class="price">￥{{item.org_settle_price}}</el-col>
             <el-col :span="3" class="choose-button">
-              <el-button type="warning" size="mini">选定</el-button>
+              <el-button type="warning" size="mini" @click="handleSelected(item)">选定</el-button>
               <p>剩余：{{item.discount}}</p>
             </el-col>
           </el-row>
@@ -58,6 +58,12 @@
 
 <script>
 export default {
+  data() {
+    return {
+      id: "",
+      seat_xid: ""
+    };
+  },
   props: {
     // 数据
     data: {
@@ -67,11 +73,21 @@ export default {
     },
     isShowFlightRecommend: false,
     dep_time: "",
-    arr_time: "",
+    arr_time: ""
   },
   methods: {
     handleShowFlightRecommend() {
       this.isShowFlightRecommend = !this.isShowFlightRecommend;
+    },
+    handleSelected(item) {
+      
+      this.$router.push({
+        path: "/air/order",
+        query: {
+          id: this.data.id,
+          seat_xid: item.seat_xid
+        }
+      });
     }
   },
   computed: {
@@ -87,12 +103,7 @@ export default {
       return `${Hours}时${Minutes}分`;
     }
   },
-  mounted() {
-    //   console.log(this.data)
-    //   const { dep_time, arr_time } = this.data;
-    //   console.log(dep_time)
-    // console.log(this.data)
-  }
+  
 };
 </script>
 

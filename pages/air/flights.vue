@@ -100,7 +100,7 @@ export default {
       // console.log(this.dataList)
     },
     setData(data) {
-      console.log(data);
+      // console.log(data);
       if (data) {
         this.fightAllData.flights = data;
         this.fightAllData.total = data.length;
