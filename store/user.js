@@ -22,18 +22,22 @@ export const mutations = {
 
 
 export const actions = {
-  login({ commit }, data) {
+  login({
+    commit
+  }, data) {
     return this.$axios({
       url: "/accounts/login",
       method: "POST",
       data
     }).then(res => {
       const data = res.data
-      setTimeout(() => commit("setUserInfo", data),1000)
+      setTimeout(() => commit("setUserInfo", data), 1000)
       return data
     })
   },
-  register({commit}, data){
+  register({
+    commit
+  }, data) {
     return this.$axios({
       url: "/accounts/register",
       method: "POST",

@@ -132,7 +132,8 @@ export default {
 
     // 提交订单
     handleSubmit() {
-      console.log(this.form);
+      // console.log(this.form);
+      localStorage.setItem("totalPrice",this.totalPrice)
       this.$axios({
         url: "/airorders",
         method: "POST",
@@ -141,9 +142,17 @@ export default {
           Authorization: `Bearer ${this.$store.state.user.userInfo.token}`
         }
       }).then(res => {
+        // console.log(res.data.data.air.id)
+        // console.log(res.data)
+        const { id } = res.data.data;
         const { message, status } = res.data;
+        console.log(message);
         if (status === 0) {
           this.$message.success(message + "！  马上为你跳转支付页！");
+          this.$router.push({
+            path: "/air/pay",
+            query: { id }
+          });
         }
       });
     }
@@ -160,7 +169,7 @@ export default {
       totalPrice += this.data.airport_tax_audlet;
       totalPrice += this.form.insurances.length * 30;
       totalPrice *= this.form.users.length;
-      this.$emit("handleRecept", totalPrice,this.form.users.length);
+      this.$emit("handleRecept", totalPrice, this.form.users.length);
       return totalPrice;
     }
   }
