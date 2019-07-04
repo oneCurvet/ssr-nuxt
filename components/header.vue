@@ -3,17 +3,15 @@
     <el-row class="header_main" type="flex" justify="space-between">
       <el-row>
         <div class="logo">
-          <nuxt-link to="/">
-            <img src="/images/logo.jpg" alt>
-          </nuxt-link>
+          <nuxt-link to="https://www.mafengwo.cn/"></nuxt-link>
         </div>
       </el-row>
 
       <el-row class="menu-nav">
         <nuxt-link to="/">首页</nuxt-link>
         <nuxt-link to="/post">旅游攻略</nuxt-link>
-        <nuxt-link to="/hotel">酒店</nuxt-link>
-        <nuxt-link to="/air">国内机票</nuxt-link>
+        <nuxt-link to="/hotel">订酒店</nuxt-link>
+        <nuxt-link to="/air">机票</nuxt-link>
       </el-row>
 
       <el-row>
@@ -35,7 +33,7 @@
                 <img
                   :src="$axios.defaults.baseURL + $store.state.user.userInfo.user.defaultAvatar"
                   alt
-                >
+                />
                 <span class="user_nickname">{{$store.state.user.userInfo.user.nickname}}</span>
                 <i class="el-icon--right el-icon-caret-bottom"></i>
               </span>
@@ -60,7 +58,7 @@
                 <el-dropdown-item>消息</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
-            <nuxt-link to="/user/login">登录 / 注册</nuxt-link>
+            <nuxt-link to="/user/login">登录 | 注册</nuxt-link>
           </div>
         </div>
       </el-row>
@@ -83,6 +81,7 @@ export default {
 .header {
   height: 60px;
   line-height: 60px;
+  border-bottom: 2px solid rgba(0,0,0,.06);
   .header_main {
     width: 1000px;
     margin: 0 auto;
@@ -91,12 +90,9 @@ export default {
     .logo {
       width: 156px;
       height: 42px;
-      padding-top: 8px;
-
-      img {
-        width: 100%;
-        display: block;
-      }
+      background: url("https://css.mafengwo.net/images/header-small-sprites3.png")
+        no-repeat 0 15px;
+      
     }
     .menu-nav {
       display: flex;
@@ -131,7 +127,6 @@ export default {
           display: flex;
           align-items: center;
           cursor: pointer;
-          
         }
 
         .user_nickname,
